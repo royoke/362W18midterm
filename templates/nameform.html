@@ -1,0 +1,14 @@
+<html>
+<body>
+
+	<form action="http://localhost:5000/names" method='GET'>
+		{% for message in get_flashed_messages() %}
+		{{ message }} <br>
+		{% endfor %}
+		Please enter your name: <input type="text" name="name" value="">
+		<br>
+		<input type="submit" value="Submit">
+	</form>
+
+</body>
+</html>

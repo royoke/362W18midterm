@@ -5,7 +5,17 @@
 <form action="{{ url_for('home') }}" method="POST">
     {{ form.name.label() }}{{ form.name() }}<br>
     {{ form.submit() }}
+    {{ form.hidden_tag() }}
 </form>
 
 
 {% endblock %}
+
+<p>------------</p>
+<h3>Navigation</h3>
+<ul>
+	<li><a href="{{ url_for('home') }}"> Go to name entry form. </a></li>
+	<li><a href="{{ url_for('all_names') }}"> See all names visited. </a></li>
+	<li><a href="{{ url_for('movie_info') }}"> Go to the Movie Finder. </a></li>
+	<li><a href="{{ url_for('watchlist') }}"> Add a movie to your Watchlist. </a></li>
+</ul>

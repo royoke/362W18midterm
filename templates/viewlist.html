@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content1 %}
+<form method="POST">
+Here is the watchlist for {{ name }}: <br><br>
+
+{% for movie in all_movies %}
+	{% if movie[1] == user_id %}
+	<li> {{ movie[0] }} </li>
+
+{% endif %}
+{% endfor %}
+
+{% if not watchlist %}
+It appears you dont have any movies saved. <a href="{{ url_for('watchlist') }}"> Add a movie to your Watchlist here! </a>
+
+{% endif %}
+</form>
+{% endblock %}

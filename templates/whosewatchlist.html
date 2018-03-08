@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content1 %}
+<form method = 'POST'>
+If you have already added movies to your watchlist, enter your name here and we will retreive all of your movies for you!<br><br>
+{{ form.hidden_tag() }} 
+{{ form.name.label }}{{ form.name() }}<br><br>
+{{ form.movie.label }}{{ form.movie() }}
+{{ form.submit() }}
+</form>
+{% endblock %}

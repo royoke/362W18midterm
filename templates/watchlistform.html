@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content1 %}
+<form method="POST">
+
+If you have any movies you've been dying to see, add them to your watchlist so you will never forget! <br><br>
+{{ form.hidden_tag() }} 
+{{ form.name.label }}{{ form.name() }}<br><br>
+{{ form.movie.label }}{{ form.movie() }}<br>
+{{ form.submit() }}
+</form>
+
+{% for message in get_flashed_messages() %}
+    <strong>{{ message }}</strong>
+{% endfor %}
+
+{% endblock %}
