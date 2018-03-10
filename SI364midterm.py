@@ -71,6 +71,15 @@ class Watchlist(db.Model):
     def __repr__(self):
         return "{} | User: {}".format(self.movie_info,self.user_id)
 
+class RemovedMovies(db.Model):
+    __tablename__='removedmovies'
+    movie_title = db.Column(db.String (100),primary_key=True)
+    #user_name = db.Column(db.String (64), db.ForeignKey('users.user_name'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+
+    def __repr__(self):
+        return "{} | User: {} | ID: {}".format(self.movie_title,self.user_name,self.user_id)
+
 
 
 ###################
@@ -92,6 +101,15 @@ class MovieSearchForm(FlaskForm):
 class WatchlistForm(FlaskForm):
     name = StringField("Enter you full name (First and Last) so we know whose watchlist we are working with!: ",validators=[Required()])
     movie = StringField("Enter the name of the movie you would like us to add to your watchlist: ",validators=[Required()])
+    submit = SubmitField()
+    
+    def validate_name(self, field):
+        if len(field.data.split()) <= 1:
+            raise ValidationError('Please include your first and last name, with spaces!')
+
+class RemoveMoviesForm(FlaskForm):
+    name = StringField('Enter you full name (First and Last) so we know whose watchlist we are working with!: ', validators=[Required()])
+    movie = StringField('Enter the name of the movie you would like to remove: ', validators=[Required()])
     submit = SubmitField()
 
     def validate_name(self, field):
@@ -130,7 +148,6 @@ def movie_results():
     movie = request.args['movie']
     if movie != '':
         data = get_movie_info(movie)
-        #return data
         obj = json.loads(data)
         return render_template('movieresults.html', movie_dict=obj)
     flash('A movie title is required!')
@@ -179,6 +196,41 @@ def viewlist():
     if len(errors) > 0:
         flash("There are either no movies in your watchlist or there is a typo. Make sure you are using your first and last name and already have a movie in your watchlist!")
     return render_template('whosewatchlist.html',form=form)
+
+@app.route('/seeremovedmovies',methods = ['GET','POST'])
+def see_removed_movies():
+    removed_movies = []
+    movies = RemovedMovies.query.all()
+    for movie in movies:
+        removed_movies.append((movie.movie_title,User.query.filter_by(user_id=movie.user_id).first().user_name))
+    return render_template('seeremovedmovies.html',removed_movies=removed_movies)
+
+@app.route('/removemovie', methods=['GET','POST'])
+def remove_movie():
+    form = RemoveMoviesForm()
+    if form.validate_on_submit():
+        name = form.name.data
+        user_id = User.query.filter_by(user_name=name).first().user_id
+        movie = form.movie.data
+        m = Watchlist.query.filter_by(movie_title=movie,user_id=user_id).first()
+        if m:
+            db.session.delete(m)
+            db.session.commit()
+            flash('Your movie has been successfully removed!')
+
+        else:
+            flash('You have already removed this movie from you Watchlist!')
+        m = RemovedMovies.query.filter_by(movie_title=movie,user_id=user_id).first()
+        if not m:
+            new_movie = RemovedMovies(movie_title=movie,user_id=user_id)
+            db.session.add(new_movie)
+            db.session.commit()
+        return redirect(url_for('see_removed_movies'))
+    errors = [v for v in form.errors.values()]
+    if len(errors) > 0:
+        flash("!!!! ERRORS IN FORM SUBMISSION - " + str(errors))
+    return render_template('removemovie.html',form=form)
+
 
 
 

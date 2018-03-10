@@ -1,0 +1,24 @@
+
+
+{% extends 'base.html' %}
+
+{% block content1 %}
+{% for message in get_flashed_messages() %}
+<strong>{{ message }}<strong> <br>
+{% endfor %}
+
+<h2>Here are all of the movies people have watched!</h2>
+
+<ul> 
+	{% for movie in removed_movies %}
+	<li>{{ movie[1] }} removed {{ movie[0] }} from their Watchlist!</li><br>
+	{% endfor %}
+</ul>
+
+{% if not removed_movies %}
+There are no removed movies to show.
+{% endif %}
+
+
+
+{% endblock %}

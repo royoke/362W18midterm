@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content1 %}
+<form  method = "POST">
+	<h2> On this page you can remove movies from you watchlist after you have already seen them!</h2><br>
+	{{ form.hidden_tag() }}
+	{{ form.name.label }}{{ form.name() }} <br><br>
+	{{ form.movie.label }}{{ form.movie() }}<br>
+	{{ form.submit() }}
+</form>
+
+	{% for message in get_flashed_messages() %}
+  	{{ message }} <br>
+  	{% endfor %}
+
+{% endblock %}
