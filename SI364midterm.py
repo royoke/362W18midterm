@@ -27,7 +27,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 ## Statements for db setup (and manager setup if using Manager)
 db = SQLAlchemy(app)
 
-api_key='ad9bfe6b914fdcdda7b371656f06ea66'
+api_key=''
 ######################################
 ######## HELPER FXNS (If any) ########
 ######################################
