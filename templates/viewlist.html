@@ -4,6 +4,10 @@
 <form method="POST">
 Here is the watchlist for {{ name }}: <br><br>
 
+{% if movie_len == 0 %}
+It appears you dont have any movies saved. <a href="{{ url_for('watchlist') }}"> Add a movie to your Watchlist here! </a>
+{% endif %}
+
 {% for movie in all_movies %}
 	{% if movie[1] == user_id %}
 	<li> {{ movie[0] }} </li>
@@ -11,9 +15,10 @@ Here is the watchlist for {{ name }}: <br><br>
 {% endif %}
 {% endfor %}
 
-{% if not watchlist %}
-It appears you dont have any movies saved. <a href="{{ url_for('watchlist') }}"> Add a movie to your Watchlist here! </a>
+{% for message in get_flashed_messages() %}
+    <strong>{{ message }}</strong>
+{% endfor %}
 
-{% endif %}
+
 </form>
 {% endblock %}

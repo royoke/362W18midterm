@@ -78,8 +78,12 @@ class Watchlist(db.Model):
 ###################
 
 class NameForm(FlaskForm):
-    name = StringField("Please enter your name:",validators=[Required()])
+    name = StringField("Please enter your name (First and Last)",validators=[Required()])
     submit = SubmitField()
+
+    def validate_name(self, field):
+        if len(field.data.split()) <= 1:
+            raise ValidationError('Please include your first and last name, with spaces!')
 
 class MovieSearchForm(FlaskForm):
     movie = StringField("Name of Movie: ",validators=[Required()])
@@ -97,6 +101,9 @@ class WatchlistForm(FlaskForm):
 #######################
 ###### VIEW FXNS ######
 #######################
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 @app.route('/', methods = ['GET','POST'])
 def home():
@@ -158,7 +165,7 @@ def watchlist():
 
 @app.route('/viewlist', methods = ['GET','POST'])
 def viewlist():
-    form = WatchlistForm()
+    form = NameForm()
     if form.validate_on_submit():
         all_movies = []
         user = form.name.data
@@ -166,7 +173,11 @@ def viewlist():
         watchlist = Watchlist.query.all()
         for movie in watchlist:
             all_movies.append((movie.movie_title,movie.user_id))
-        return render_template('viewlist.html',all_movies=all_movies, name=user,user_id=user_id)
+        movie_len = len(all_movies)
+        return render_template('viewlist.html',all_movies=all_movies, name=user,user_id=user_id,movie_len=movie_len)
+    errors = [v for v in form.errors.values()]
+    if len(errors) > 0:
+        flash("There are either no movies in your watchlist or there is a typo. Make sure you are using your first and last name and already have a movie in your watchlist!")
     return render_template('whosewatchlist.html',form=form)
 
 
