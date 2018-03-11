@@ -132,6 +132,9 @@ def home():
         db.session.add(newname)
         db.session.commit()
         return redirect(url_for('all_names'))
+    errors = [v for v in form.errors.values()]
+    if len(errors) > 0:
+        flash('Please make sure you are entering your first and your last name!')
     return render_template('base.html',form=form)
 
 @app.route('/names')
@@ -149,7 +152,11 @@ def movie_results():
     if movie != '':
         data = get_movie_info(movie)
         obj = json.loads(data)
-        return render_template('movieresults.html', movie_dict=obj)
+        if len(obj['results']) > 0:
+            return render_template('movieresults.html', movie_dict=obj)
+        else:
+            flash('We could not find the movie you are looking for, sorry!')
+            return redirect(url_for('movie_info'))
     flash('A movie title is required!')
     return redirect(url_for('movie_info'))
 

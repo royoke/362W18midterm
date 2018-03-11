@@ -3,7 +3,7 @@
 {% block content1 %}
 <form action="{{ url_for('movie_results') }}" method = 'GET'>
 	{% for message in get_flashed_messages() %}
-  	{{ message }} <br>
+  	<strong>{{ message }}</strong> <br>
   	{% endfor %}
 	<h2>Welcome to the Movie Finder!</h2> <br>
 	Here you may enter the name of any movie, and using "The Movie Database API" we will give you the films description, popularity rating, and release date. Enjoy! 

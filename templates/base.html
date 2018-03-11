@@ -8,6 +8,9 @@
     {{ form.hidden_tag() }}
 </form>
 
+{% for message in get_flashed_messages() %}
+    <strong>{{ message }}</strong>
+{% endfor %}
 
 {% endblock %}
 

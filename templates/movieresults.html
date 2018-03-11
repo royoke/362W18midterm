@@ -7,6 +7,11 @@
 	<h3>Release Date:</h3> {{ movie_dict['results'][0]['release_date'] }}
 </form>
 <br> <br><br>
+
+{% for message in get_flashed_messages() %}
+    <strong>{{ message }}</strong>
+{% endfor %}
+
 Unfortunately, sometimes there may be multiple films with the same title. This was the most popular film given the title you imput. I am sorry if this is not the film you were looking for!
 
 {% endblock %}
