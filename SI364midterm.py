@@ -4,6 +4,7 @@
 
 ## Import statements
 # Import statements
+import key
 import os
 import requests
 import json
@@ -27,7 +28,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 ## Statements for db setup (and manager setup if using Manager)
 db = SQLAlchemy(app)
 
-api_key=''
+api_key=key.api_key
 ######################################
 ######## HELPER FXNS (If any) ########
 ######################################

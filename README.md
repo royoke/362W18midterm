@@ -1,6 +1,6 @@
 **Description**
 
- Welcome to the Watchlist app! This is used for people looking to create a database of movies that they wish to watch. You can search movies to find out more about them, then if they sound interesting you can add them to your Watchlist data base! Once you have finished watching your movie, you may also remove it. P.S. I left my api key in the comments on canvas which you will need to add to my mainfile (line 30) in order to use the movie finder feature. Enjoy!
+ Welcome to the Watchlist app! This is used for people looking to create a database of movies that they wish to watch. You can search movies to find out more about them, then if they sound interesting you can add them to your Watchlist data base! Once you have finished watching your movie, you may also remove it. P.S. I left my api key in the comments on canvas which you will need to add to key.py in order to use the movie finder feature. Enjoy!
 
 **Routes**
 
